@@ -1,6 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+interface DataTable {
+  id: number;
+  Name: string;
+}
 
 const Work: React.FC = () => {
+  const [entidad, setEntidad] = useState('');
+  const [table, setTable] = useState('');
+  const [dataTable, setDataTable] = useState<DataTable[]>([]);
+
+  const handleEntityChange = (event: any) => {
+    setEntidad(event.target.value); // Actualiza el estado con el valor del input
+  };
+  const handleTableChange = (event: any) => {
+    setTable(event.target.value); // Actualiza el estado con el valor del input
+  };
+  async function insertData() {
+     try {
+       await (window as any).connection.createData(entidad);
+     } catch (error) {
+       console.log(error, "errorsito");
+     }
+    console.log("hola");
+  }
+
+  async function getData() {
+    try {
+      const data = await (window as any).connection.getData(table);
+      console.log(data);
+      setDataTable(data)
+    } catch (error) {
+      console.log(error, 'errorsote');
+    }
+    console.log('hola');
+  }
+
+  useEffect(() => {
+    console.log(dataTable, "fasdferwerwerwerwe");
+    
+  }, [dataTable])
   /*
   const ipcRenderer = (window as any).ipcRenderer;
   const [tasks, setTasks] = useState<ITask[]>([]);
@@ -17,7 +56,7 @@ const Work: React.FC = () => {
       setup();
     });
   }, []);
-*/
+  */
   return (
     <div>
       {/*
@@ -34,24 +73,61 @@ const Work: React.FC = () => {
       <TodoForm /> 
       */}
       <div>
-        <label className="block text-sm/6 font-medium text-gray-900">Price</label>
+        <label className="block text-sm/6 font-medium text-gray-900">
+          Entidad.
+        </label>
         <div className="relative mt-2 rounded-md shadow-sm">
-          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-            <span className="text-gray-500 sm:text-sm">$</span>
-          </div>
-          <input type="text" name="price" id="price" className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6" placeholder="0.00" />
-          <div className="absolute inset-y-0 right-0 flex items-center">
-            <label className="sr-only">Currency</label>
-            <select id="currency" name="currency" className="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
-              <option>USD</option>
-              <option>CAD</option>
-              <option>EUR</option>
-            </select>
-          </div>
+          <input
+            type="text"
+            name="entidad"
+            id="entidad"
+            value={entidad}
+            onChange={handleEntityChange}
+            className="flex rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm/6"
+            placeholder="ejemplo: confama"
+          />
         </div>
-        <button type="submit" className="block w-full px-4 py-2 text-left text-sm text-gray-700" role="menuitem" id="menu-item-3">Sign out</button>
+        <button
+          onClick={() => insertData()}
+          className="flex px-4 my-2 py-2 text-left text-xl text-gray-700 border-2 rounded-md"
+          role="menuitem"
+          id="menu-item-3"
+        >
+          Insertar Entidad
+        </button>
       </div>
-
+      <div>
+        <label className="block text-sm/6 font-medium text-gray-900">
+          Tabla.
+        </label>
+        <div className="relative mt-2 rounded-md shadow-sm">
+          <input
+            type="text"
+            name="table"
+            id="table"
+            value={table}
+            onChange={handleTableChange}
+            className="flex rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm/6"
+            placeholder="ejemplo: Entidad"
+          />
+        </div>
+        <button
+          onClick={() => getData()}
+          className="flex px-4 my-2 py-2 text-left text-xl text-gray-700 border-2 rounded-md"
+          role="menuitem"
+          id="menu-item-3"
+        >
+          Obetener Datos x Tabla
+        </button>
+        <div>{dataTable.map((item, index) => {
+          return (
+            <label className="block text-sm/6 font-medium text-gray-900" key={index}>
+              {item.Name}
+            </label>
+          );
+        })}
+        </div>
+      </div>
     </div>
   );
 };

@@ -12,7 +12,7 @@ export const NavBar: React.FC = () => {
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <a href="/work">Work</a>
+            <a href="/work">Insertar Entidad</a>
           </li>
           {/*
           <li tabIndex={0}>
