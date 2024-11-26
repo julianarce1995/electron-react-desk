@@ -12,8 +12,8 @@ let mainWindow;
 function createMainWindow() {
   mainWindow = new BrowserWindow({
     title: 'My buddy app',
-    width: 1500,
-    height: 800,
+    width: 1920,
+    height: 1080,
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: true,

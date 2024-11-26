@@ -13,12 +13,12 @@
     "reactjs",
     "typescript"
   ],
-  "author": "Amitav Roy",
   "license": "MIT",
   "dependencies": {
     "axios": "^1.2.3",
     "electron": "^22.0.0",
-    "form-data": "^4.0.0"
+    "form-data": "^4.0.0",
+    "sqlite3": "^5.1.7"
   },
   "electronmon": {
     "patterns": [

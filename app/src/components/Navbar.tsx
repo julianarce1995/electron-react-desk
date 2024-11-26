@@ -14,6 +14,7 @@ export const NavBar: React.FC = () => {
           <li>
             <a href="/work">Work</a>
           </li>
+          {/*
           <li tabIndex={0}>
             <a>
               Sections
@@ -36,7 +37,9 @@ export const NavBar: React.FC = () => {
               </li>
             </ul>
           </li>
+           */}
         </ul>
+        {/*
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
@@ -61,6 +64,7 @@ export const NavBar: React.FC = () => {
             </li>
           </ul>
         </div>
+         */}
       </div>
     </div>
   );
