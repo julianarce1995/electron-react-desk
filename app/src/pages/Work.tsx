@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import ExcelList from './../components/excel/ExcelList';
 
 interface DataTable {
   id: number;
@@ -20,9 +21,8 @@ const Work: React.FC = () => {
      try {
        await (window as any).connection.createData(entidad);
      } catch (error) {
-       console.log(error, "errorsito");
+       console.log(error);
      }
-    console.log("hola");
   }
 
   async function getData() {
@@ -31,15 +31,9 @@ const Work: React.FC = () => {
       console.log(data);
       setDataTable(data)
     } catch (error) {
-      console.log(error, 'errorsote');
+      console.log(error);
     }
-    console.log('hola');
   }
-
-  useEffect(() => {
-    console.log(dataTable, "fasdferwerwerwerwe");
-    
-  }, [dataTable])
   /*
   const ipcRenderer = (window as any).ipcRenderer;
   const [tasks, setTasks] = useState<ITask[]>([]);
@@ -119,15 +113,20 @@ const Work: React.FC = () => {
         >
           Obetener Datos x Tabla
         </button>
-        <div>{dataTable.map((item, index) => {
-          return (
-            <label className="block text-sm/6 font-medium text-gray-900" key={index}>
-              {item.Name}
-            </label>
-          );
-        })}
+        <div>
+          {dataTable.map((item, index) => {
+            return (
+              <label
+                className="block text-sm/6 font-medium text-gray-900"
+                key={index}
+              >
+                {item.Name}
+              </label>
+            );
+          })}
         </div>
       </div>
+      <ExcelList />
     </div>
   );
 };

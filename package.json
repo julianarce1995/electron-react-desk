@@ -18,7 +18,8 @@
     "axios": "^1.2.3",
     "electron": "^22.0.0",
     "form-data": "^4.0.0",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "xlsx": "^0.18.5"
   },
   "electronmon": {
     "patterns": [

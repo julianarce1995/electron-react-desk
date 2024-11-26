@@ -1,10 +1,12 @@
 const { app, BrowserWindow } = require('electron');
 const url = require('url');
 const path = require('path');
+const XLSX = require('xlsx');
 const { ipcMain } = require('electron/main');
 const sqlite3 = require("sqlite3")
 
 let mainWindow;
+let db;
 
 function createMainWindow() {
   mainWindow = new BrowserWindow({
@@ -29,7 +31,6 @@ function createMainWindow() {
 
 }
 
-let db;
 
 app.whenReady().then(async () => {
   try {
@@ -39,9 +40,8 @@ app.whenReady().then(async () => {
     console.error('Error durante la inicialización:', error);
   }
 });
- 
 
-function createTable(db) {
+function createTable() {
   const tableName = "Entidad"
   db.get(
     "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
@@ -118,7 +118,7 @@ async function connection() {
   try {
     const dbPath = path.join(process.cwd(), 'app.db');
 
-    // Crear una nueva conexión a la base de datos
+    // Crear una nueva conexión a la base de datos o crear una nueva
     db = new sqlite3.Database(dbPath, (err) => {
       if (err) {
         console.error('Error al conectar a la base de datos', err.message);
@@ -127,7 +127,7 @@ async function connection() {
       }
     });
 
-    createTable(db);
+    createTable();
 
     return db;
   } catch (error) {
@@ -163,12 +163,23 @@ ipcMain.handle('get-data', async (event, table) => {
 });
 
 ipcMain.handle('create-data', async (event, name) => {
-  console.log('Mensaje recibido en el proceso principal:', name);
   try {
     await insertEntity(name);
   } catch (error) {
     console.error("Error al crear info:", error);
     throw error;
   }
-  // Aquí puedes realizar acciones con el mensaje recibido
+});
+
+ipcMain.handle('read-excel', async (event, filePath) => {
+  try {
+    const workbook = XLSX.readFile(filePath);
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    const data = XLSX.utils.sheet_to_json(sheet);
+
+    return data;
+  } catch (error) {
+    console.error('Error al leer el archivo Excel:', error);
+  }
 });

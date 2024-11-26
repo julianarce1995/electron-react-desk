@@ -16,3 +16,7 @@ contextBridge.exposeInMainWorld('connection', {
   getData: (table) => ipcRenderer.invoke('get-data', table),
   createData: (name) => ipcRenderer.invoke('create-data', name),
 });
+
+contextBridge.exposeInMainWorld('electron', {
+  readExcel: (file) => ipcRenderer.invoke('read-excel', file), // Enviar solicitud IPC
+});
